@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
-    <script type='text/javascript' src='script.js'></script>
+    <title>Consulta de CEP</title>
 </head>
 <body>
-    <h1>Informe o CEP aqui</h1>
-    <input type="text" id="cep" name="cep" size="15" maxlength="8" aria-autocomplete="off">
-    <button type="button" onclick="consultaCep()">consultar</button>
+    <h1>Consulta de CEP</h1>
+    <input type="text" id="cep" placeholder="Digite o CEP">
+    <button onclick="buscarCEP()">Consultar</button>
+    <div id="resultado">
+        
+    </div>
 
-    <div style="padding-top: 20px;" id="return"></div>
+    <script>
+        function buscarCEP() {
+            var cep = document.getElementById('cep').value;
+            var url = `https://viacep.com.br/ws/${cep}/json/`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var resultado = document.getElementById('resultado');
+                    if (data.erro) {
+                        resultado.innerHTML = 'CEP não encontrado.';
+                    } else {
+                        resultado.innerHTML = `
+                            <p><strong>CEP:</strong> ${data.cep}</p>
+                            <p><strong>Logradouro:</strong> ${data.logradouro}</p>
+                            <p><strong>Bairro:</strong> ${data.bairro}</p>
+                            <p><strong>Cidade/Estado:</strong> ${data.localidade}/${data.uf}</p>
+                        `;
+                    }
+                })
+                .catch(error => {
+                    var resultado = document.getElementById('resultado');
+                    resultado.innerHTML = 'Ocorreu um erro na consulta.';
+                });
+        }
+    </script>
 </body>
 </html>

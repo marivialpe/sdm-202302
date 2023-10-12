@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Busca e Visualização de Resultados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin-top: 20px;
+        }
+        #results {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px auto;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Busca e Visualização de Resultados</h1>
+    <div id="container">
+        <label for="search">Buscar Categoria:</label>
+        <input type="text" id="search" placeholder="Insira uma categoria">
+        <button onclick="buscarResultados()">Buscar</button>
+    </div>
+    <div id="results"></div>
+
+    <script>
+        var data = {
+            "response_code": 0,
+            "results": [
+                {
+                    "category": "Entertainment: Film",
+                    "type": "multiple",
+                    "difficulty": "easy",
+                    "question": "Which of the following is not the name of a Bond Girl?",
+                    "correct_answer": "Vanessa Kensington",
+                    "incorrect_answers": [
+                        "Pam Bouvier",
+                        "Mary Goodnight",
+                        "Wai Lin"
+                    ]
+                },
+                // Adicione os demais objetos de resultado aqui
+            ]
+        };
+
+        function buscarResultados() {
+            var search = document.getElementById('search').value;
+            var results = document.getElementById('results');
+
+            if (search.trim() === '') {
+                results.innerHTML = 'Insira uma categoria válida.';
+                return;
+            }
+
+            var filteredResults = data.results.filter(function (result) {
+                return result.category.toLowerCase().includes(search.toLowerCase());
+            });
+
+            if (filteredResults.length === 0) {
+                results.innerHTML = 'Nenhum resultado encontrado para a categoria: ' + search;
+            } else {
+                results.innerHTML = '<pre>' + JSON.stringify(filteredResults, null, 2) + '</pre>';
+            }
+        }
+    </script>
+</body>
+</html>

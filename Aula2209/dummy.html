@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerador de Dados de Exemplo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        #container {
+            margin-top: 20px;
+        }
+        #output {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 20px auto;
+            width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Dados de Exemplo</h1>
+    <div id="container">
+        <label for="template">Modelo DummyJSON:</label>
+        <input type="text" id="template" size="40" placeholder="Insira o modelo DummyJSON aqui">
+        <button onclick="gerarDadosExemplo()">Gerar</button>
+    </div>
+    <div id="output"></div>
+
+    <script>
+        function gerarDadosExemplo() {
+            var template = document.getElementById('template').value;
+            var output = document.getElementById('output');
+
+            if (template.trim() === '') {
+                output.innerHTML = 'Insira um modelo DummyJSON válido.';
+                return;
+            }
+
+            try {
+                var jsonData = JSON.parse(DummyJSON.parse(template));
+                output.innerHTML = '<pre>' + JSON.stringify(jsonData, null, 2) + '</pre>';
+            } catch (error) {
+                output.innerHTML = 'Erro ao analisar o modelo DummyJSON.';
+            }
+        }
+    </script>
+</body>
+</html>
+
